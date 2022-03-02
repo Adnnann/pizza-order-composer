@@ -10,7 +10,7 @@ const emailValidator = [
     })
 ]
 
-const nicknameValidator = [
+const nameValidator = [
     validate({
         validator: 'isAlphanumeric',
         message: 'Only letters and numbers are allowed in nickname'
@@ -23,22 +23,8 @@ const UserSchema = new mongoose.Schema({
         required:'First name is required',
         trim: true,
         maxlength: [15, "First name must be less than 15 characters"],
-        match: [/^[A-Za-z\s]+$/, 'Only letters are allowed in first name']
+        validate: nameValidator
         
-    },
-    lastName:{
-        type:String,
-        required:'Last name is required',
-        trim: true,
-        maxlength: [20, "Last name must be less than 20 characters"],
-        match: [/^[A-Za-z\s]+$/, 'Only letters are allowed in last name']
-    },
-    nickname:{
-        type:String,
-        unique:'Nickname already exists.',
-        required:'Nickname is required',
-        trim: true,
-        validate: nicknameValidator
     },
     email:{
         type:String,

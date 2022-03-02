@@ -15,6 +15,15 @@ import errorHandler from './helpers/dbErrorHandlers'
     })
 }
 
+const list = (req, res) => {
+    User.find((err, users) => {
+        if(err) {
+            return res.send({error: errorHandler.getErrorMessage()})
+        }
+        res.send({users})
+    }).select('name email updated created')
+}
+
 const read = (req, res) => {
     req.profile.hashed_password = undefined
     req.profile.salt = undefined
@@ -56,6 +65,7 @@ const userByID = (req, res, next, id) => {
 
 export default {
     create,
+    list,
     read, 
     update,
     remove,
