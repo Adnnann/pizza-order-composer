@@ -3,72 +3,80 @@
       {
         "gluten_free": true,
         "name": "Mozzarella cheese",
-        "type": "ingredient"
+        "type": "ingredient",
+        "price": 1
       }, 
       {
         "gluten_free": true,
         "name": "Parmesan cheese",
-        "type": "ingredient"
+        "type": "ingredient",
+        "price":1
       },
       {
         "gluten_free": true,
         "name": "Cheddar cheese",
-        "type": "ingredient"
+        "type": "ingredient",
+        "price": 2
       }, 
       {
-        "gluten_free": true,
-        "name": "Feta cheese",
-        "type": "ingredient"
-      },
-      {
         "gluten_free": false,
-        "name": "Parmesan cheese",
-        "type": "ingredient"
+        "name": "Livada cheese",
+        "type": "ingredient",
+        "price":2
       }, 
       {
         "gluten_free": true,
         "name": "Sliced black olives",
-        "type": "ingredient"
+        "type": "ingredient",
+        "price":1.5
       },    
       {
         "gluten_free": true,
         "name": "Sliced green olives",
-        "type": "ingredient"
+        "type": "ingredient",
+        "price":1
       }, 
       {
         "gluten_free": true,
         "name": "Hot sauce",
-        "type": "ingredient"
+        "type": "ingredient",
+        "price":2
       },
       {
         "gluten_free": false,
         "name": "Romaine lettuce",
-        "type": "ingredient"
+        "type": "ingredient",
+        "price":0.5
       }, 
       {
         "gluten_free": true,
         "name": "Chopped artichoke hearts",
-        "type": "ingredient"
+        "type": "ingredient",
+        "price":1.5
       },
       {
         "gluten_free": true,
         "name": "Chopped tomato",
-        "type": "ingredient"
+        "type": "ingredient",
+        "price":1
       }, 
       {
         "gluten_free": true,
         "name": "Sliced green onion",
-        "type": "ingredient"
+        "type": "ingredient",
+        "price":1
       },
       {
         "gluten_free": true,
         "name": "Mushrooms",
-        "type": "ingredient"
+        "type": "ingredient",
+        "price":1
       }, 
       {
         "gluten_free": false,
         "name": "Sprinkle of dry oregano",
-        "type": "ingredient"
+        "type": "ingredient",
+        "price":0.5
       }
     ]
   }

@@ -9,11 +9,6 @@ import { useEffect } from 'react'
 
 const Home = () => {
 
-    useEffect(()=>{
-        console.log()
-        
-      },[])
-
     return(
         <Container style={{margin:'0'}}>
 
