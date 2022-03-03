@@ -6,7 +6,7 @@ import IngredientsSelector from "./IngredientsSelector"
 const Orders = () => {
 
     return(
-        <Container style={{margin:'0'}}>
+        <Container>
 
             <Row>
                 <LeftPanelHome />

@@ -7,13 +7,24 @@ import Col from 'react-bootstrap/esm/Col';
 import Image from 'react-bootstrap/Image'
 import glutenFree from '../assets/images/gluten-free.png'
 import { useDispatch, useSelector } from 'react-redux';
-import { getModal, setIngredients, setModal } from '../features/pizzaSlice';
-import { useState, useEffect } from 'react';
+import {getModal, 
+        getOrder, 
+        getQuantity, 
+        getSelectedDonut, 
+        setModal, 
+        setOrder,
+        setQuantity,
+        setTotalPriceOfEachOrder
+} from '../features/pizzaSlice';
+import { useState } from 'react';
 
 const IngredientsSelector = () => {
   const showModal = useSelector(getModal)
   const dispatch = useDispatch()
+  const selectedDonut = useSelector(getSelectedDonut)
+  const quantity = useSelector(getQuantity)
 
+  const priceArr = []
 
   const [values,setValues] = useState({
     mozzarellaCheese: '',
@@ -32,11 +43,35 @@ const IngredientsSelector = () => {
 
   })
 
+  let ingredients = ''
 
+  const handleChange = (ingredient, price) => {
+    ingredients += `${ingredient}, `
+    priceArr.push(price)
+  }
 
-  const handleChange = name => event => {
-    setValues({...values, [name]:event.target.value})
-    dispatch(setIngredients(event.target.value))
+  //main function for placing orders. Ingridients are stored in array
+  const addToCart = () => {
+
+    let price = ''
+    
+    priceArr.length > 0 ? 
+    price = priceArr.reduce((prev, curr)=>prev+curr) + selectedDonut[selectedDonut.length - 1].price
+    : price = selectedDonut[selectedDonut.length - 1].price
+    //all orders data
+    dispatch(setOrder({
+      donut: selectedDonut,
+      price: price,
+      ingredients: ingredients.substring(0,ingredients.length - 2).split(','),
+    }))
+    //set modal windows for selection of ingridentis to true
+    dispatch(setModal(false))
+    //set initial quantity to 1. On OrderPanel components quantity is increased or decreased
+    dispatch(setQuantity(1))
+    //set initial sum to price * quantity. Also important if user does not select any ingridients
+    //action will just add to total value of donut
+    dispatch(setTotalPriceOfEachOrder(quantity.length))
+
   }
     
   return(
@@ -61,8 +96,8 @@ const IngredientsSelector = () => {
                     {
                         Ingredients.data.map((item, index)=>{
                         return(
-                            <>
-                          <Row>
+                           
+                          <Row key={index}>
                           <Col xs={1} md={1} lg={1} xl={1}>
                             {
                               item.gluten_free ? 
@@ -70,7 +105,7 @@ const IngredientsSelector = () => {
                               :''
                             }
                           </Col>
-                            <Col xs={5} md={5} lg={5} xl={5}>
+                            <Col xs={5} md={5} lg={5} xl={5} >
                        
                                 <Form.Check 
                                 type='radio'
@@ -78,7 +113,7 @@ const IngredientsSelector = () => {
                                 name={item.name}
                                 value={item.name}
                                 label={item.name}
-                                onChange={handleChange(item.name)}
+                                onChange={()=>handleChange(item.name, item.price)}
                                 
                                 />
                           
@@ -87,7 +122,7 @@ const IngredientsSelector = () => {
                                 {`${item.price}$`}
                             </Col>
                             </Row> 
-                        </>)
+                        )
                         })
                     }
                  
@@ -97,7 +132,7 @@ const IngredientsSelector = () => {
                 <Row style={{borderTopStyle:'solid', width:'95%', marginLeft:'2.5%'}}>
                 <Col xs={4} md={4} lg={4} xl={4} 
                 style={{marginLeft:'auto', marginTop:'2px', marginBottom:'2px'}}>
-                <Button onClick={()=>/*dispatch(setModal(false))*/console.log(values)}>+ ADD TO CART</Button>
+                <Button onClick={addToCart}>+ ADD TO CART</Button>
                 </Col>
                 
                 </Row>

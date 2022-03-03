@@ -10,7 +10,8 @@ import { useEffect } from 'react'
 const Home = () => {
 
     return(
-        <Container style={{margin:'0'}}>
+        
+        <Container>
 
             <Row>
                 <LeftPanelHome />

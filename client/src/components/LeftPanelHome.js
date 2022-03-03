@@ -25,9 +25,9 @@ const navigate = useNavigate()
 
         <Col  
         xs={12} 
-        md={{span:4, offset:2}} 
-        lg={{span:4, offset:2}}  
-        xl={{span:4, offset:2}} 
+        md={{span:5, offset:1}} 
+        lg={{span:5, offset:1}}  
+        xl={{span:5, offset:1}} 
         style={{borderStyle:"solid",
         borderBottomStyle:'solid', 
         paddingLeft:'2%', paddingRight:'2%', marginRight:'10px'}}>
