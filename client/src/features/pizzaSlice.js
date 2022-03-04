@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   signedInUser: false,
-  selectedpizza: [],
+  selectedDough: [],
   showModal: false,
   order:[],
   quantity:[],
@@ -18,8 +18,8 @@ export const pizzaSlice = createSlice({
     setUserSiginUser: (state, action) => {
       state.signedInUser = action.payload
     },
-    setSelectedpizza: (state, action) => {
-      state.selectedpizza = action.payload 
+    setSelectedDough: (state, action) => {
+      state.selectedDough = action.payload 
     },
     setModal:(state, action) => {
       state.showModal = action.payload
@@ -62,14 +62,14 @@ export const pizzaSlice = createSlice({
 });
 
 export const getUserSigninStatus = (state) => state.pizza.signedInUser
-export const getSelectedDonut = (state) => state.pizza.selectedpizza
+export const getSelectedDough = (state) => state.pizza.selectedDough
 export const getModal = (state) => state.pizza.showModal
 export const getOrder = (state) => state.pizza.order
 export const getQuantity = (state) => state.pizza.quantity
 export const getSumOfAllOrders = (state) => state.pizza.totalPriceOfEachOrder
 
 export const {setUserSiginUser, 
-              setSelectedDonut, 
+              setSelectedDough, 
               setModal, 
               setOrder,
               setQuantity,

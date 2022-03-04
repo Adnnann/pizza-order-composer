@@ -25,7 +25,7 @@ const Header = () => {
                 <h1>Pizza Composer App</h1>
             </Nav.Item>
 
-            <Nav.Item style={{marginLeft:'auto'}}>
+            <Nav.Item style={{marginLeft:'auto', marginBottom:'2px'}}>
                 <Image src={Cart} width={'50px'} />
             </Nav.Item>
 
@@ -48,7 +48,7 @@ const Header = () => {
 
             </Nav.Item>
             
-            : <Nav.Item style={{marginTop:'1%', marginLeft:"1%", marginRight:"2%"}}>
+            : <Nav.Item style={{marginLeft:"1%", marginRight:"2%", marginTop:'7px'}}>
                     <Button>Sign in</Button>
                 </Nav.Item>
             }

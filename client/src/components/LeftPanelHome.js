@@ -1,11 +1,11 @@
-import Donuts from '../features/donuts.json'
+import Doughs from '../features/donuts.json'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Button from 'react-bootstrap/esm/Button'
 import { useDispatch } from 'react-redux'
-import { getModal, setModal, setSelectedDonut } from '../features/pizzaSlice'
+import { setModal, setSelectedDough } from '../features/pizzaSlice'
 import { useNavigate } from 'react-router-dom'
-import { useState } from 'react'
+
 
 const LeftPanelHome = () => {
 
@@ -14,8 +14,8 @@ const navigate = useNavigate()
 
 
 
-    const selectedDonut = (name) => {
-        dispatch(setSelectedDonut(Donuts.data.filter(item=>item.name === name)))
+    const selectedDough = (name) => {
+        dispatch(setSelectedDough(Doughs.data.filter(item=>item.name === name)))
         dispatch(setModal(true))
         navigate('/orders')
 
@@ -39,7 +39,7 @@ const navigate = useNavigate()
                 </Col> 
             </Row>
                    
-            {Donuts.data.map((item, index)=>{
+            {Doughs.data.map((item, index)=>{
                 return(
                     <Row style={{borderBottomStyle:'solid', marginBottom:'10px'}} key={index}>
 
@@ -53,7 +53,7 @@ const navigate = useNavigate()
                         </Col> 
 
                         <Col xs={2} md={2} lg={2} xl={2}  >
-                            <Button style={{marginLeft:'auto', fontSize:'12px'}} onClick={()=>selectedDonut(item.name)}>+ADD</Button>
+                            <Button style={{marginLeft:'auto', fontSize:'12px'}} onClick={()=>selectedDough(item.name)}>+ADD</Button>
                         </Col> 
             
                     </Row> 

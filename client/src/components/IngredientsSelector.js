@@ -10,7 +10,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import {getModal, 
         getOrder, 
         getQuantity, 
-        getSelectedDonut, 
+        getSelectedDough, 
         setModal, 
         setOrder,
         setQuantity,
@@ -21,7 +21,7 @@ import { useState } from 'react';
 const IngredientsSelector = () => {
   const showModal = useSelector(getModal)
   const dispatch = useDispatch()
-  const selectedDonut = useSelector(getSelectedDonut)
+  const selectedDough = useSelector(getSelectedDough)
   const quantity = useSelector(getQuantity)
 
   const priceArr = []
@@ -56,11 +56,11 @@ const IngredientsSelector = () => {
     let price = ''
     
     priceArr.length > 0 ? 
-    price = priceArr.reduce((prev, curr)=>prev+curr) + selectedDonut[selectedDonut.length - 1].price
-    : price = selectedDonut[selectedDonut.length - 1].price
+    price = priceArr.reduce((prev, curr)=>prev+curr) + selectedDough[selectedDough.length - 1].price
+    : price = selectedDough[selectedDough.length - 1].price
     //all orders data
     dispatch(setOrder({
-      donut: selectedDonut,
+      donut: selectedDough,
       price: price,
       ingredients: ingredients.substring(0,ingredients.length - 2).split(','),
     }))

@@ -12,15 +12,17 @@ import {getOrder,
 } from '../features/pizzaSlice'
 import ButtonGroup from 'react-bootstrap/ButtonGroup'
 import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 
 const OrderPanel = () =>{
    
-    
+    const navigate = useNavigate()
     const quantity = useSelector(getQuantity)
     const dispatch = useDispatch()
     const order = useSelector(getOrder)
     const sumOfAllOrders = useSelector(getSumOfAllOrders)
+
     
     //increase quantity and get update sum
     const increaseQ = (index) => {
@@ -97,6 +99,15 @@ const OrderPanel = () =>{
                     : 0}</p>
                 </span>
                </Col>
+               
+           </Row>
+
+           <Row >
+            <Col xs={6} md={3} lg={3} xl={3} style={{marginLeft:'auto'}}>
+                <Button style={{marginBottom:'10px', minWidth:"120px"}} 
+                onClick={()=>navigate('/order')}>Buy</Button>
+            </Col>
+               
                
            </Row>
            
