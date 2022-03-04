@@ -1,5 +1,6 @@
 
 import Container from "react-bootstrap/esm/Container"
+import '../assets/styles/order.css'
 import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/esm/Row'
 import Button from 'react-bootstrap/esm/Button'
@@ -36,7 +37,8 @@ const Order = () => {
     const [orderDetails, setOrderDetails] = useState({
         address:'',
         floor:'',
-        paymentUponDelivery:false
+        paymentUponDelivery:false,
+        notes:''
     })
     
     //increase quantity and get update sum
@@ -71,6 +73,17 @@ const paymentType = () => {
     })
 }
 
+const orderNotes = (event) => {
+    setOrderDetails({
+        ...orderDetails,
+        notes: event.target.value
+
+    })
+}
+
+console.log(orderDetails)
+
+const placeholder = [<p>Any <strong>additional</strong> comment</p>]
 
 return(
 <Container >
@@ -90,8 +103,8 @@ return(
                         <Col 
                         style={{borderStyle:'solid', 
                         //set height to fixed value to avoid Add new address 
-                        marginLeft:'10px', marginBottom:'10px', height:'60px'}}
-                        xs={5} md={2} lg={2} xl={2}
+                        marginLeft:'10px', marginBottom:'10px', height:'100px'}}
+                        xs={5} md={3} lg={3} xl={3}
                         key={index}>
                             <Form.Check 
                                 type='radio'
@@ -114,10 +127,10 @@ return(
                 {/* 
                 enable user to add new address
                  */}
-                <Col 
-                style={{borderStyle:'solid', borderColor:'black', height:'60px', padding:'0px', color:'grey', marginLeft:'10px', textAlign:'center'}}
-                xs={5} md={2} lg={2} xl={2}>
-                    <p style={{marginTop:'15px'}}>Add New</p>
+                <Col onClick={()=>alert('clicked')}
+                style={{borderStyle:'solid', opacity:'0.2', backgroundColor:'grey', borderColor:'black', height:'100px', padding:'0px', color:'black', marginLeft:'10px', textAlign:'center'}}
+                xs={5} md={3} lg={3} xl={3}>
+                    <h1 style={{marginTop:'10px', fontSize:"50px"}}>+</h1>
                 </Col>
                  
             </Row>
@@ -137,31 +150,37 @@ return(
 
         <Col style={{borderBottomStyle:'solid'}}>
         
-                <h1 style={{display:'inline'}}>Payment</h1>
+                <h1 style={{display:'inline-flex'}}>Payment</h1>
                 {/* 
                 enable user to select how she or he prefers to make
                 make payment - default for payment upon deliver is false
                  */}
-                <Form.Check 
+               <span> <Form.Check 
+                style={{display:'inline-flex', marginLeft:"20px", paddingLeft:'20px'}}
                     type='radio'
                     id='default-radio'
                     name='paymentType'
-                    label={'upon delivery'}
                     onClick={paymentType}
                     checked={
                         orderDetails.paymentUponDelivery ?
                         orderDetails.paymentUponDelivery : false}
                     readOnly
                     />
+                    <p style={{display:'inline', marginLeft:"5px"}}>upon deliver</p>
+            </span>
             
         </Col>
+        <Col xs={12} md={12} lg={12} xl={12} style={{marginTop:'20px'}}>
+            <h1>Order</h1>
+        </Col>
+
+        
        {order.map((item, index)=>{
                 return(
-                    <Row style={{borderBottomStyle:'solid', marginBottom:'10px'}} key={index}>
+                    <Row style={{marginBottom:'10px'}} key={index}>
 
                         <Col xs={7} md={7} lg={7} xl={7}>
                             <h4>{item.donut.map(item=>item.name)}</h4>
-                            <p style={{fontSize:"12px"}}>{`${item.ingredients.map(item=>item)}`}</p>
                         </Col> 
         
                         <Col xs={2} md={2} lg={2} xl={2} >
@@ -177,41 +196,66 @@ return(
                                 onClick={()=>increaseQ(index)}>+</Button>
                             </ButtonGroup>
                         </Col>  
+                        <hr/>
+                        
                         
                     </Row>  
                     ) 
                 }) 
+
+
            } 
-           <Row style={{marginTop:'10%', paddingLeft:'2%', padding:'0'}}>
+   
+        <Col xs={7} md={7} lg={7} xl={7}>
+                            <p>Delivery</p>
+                        </Col> 
+        
+        <Col xs={5} md={5} lg={5} xl={5} >
+            <p style={{fontSize:'16px'}}>5$</p>
+        </Col> 
+                        
+        <Col xs={7} md={7} lg={7} xl={7} style={{borderTopStyle:"solid", borderTopWidth:"4px"}}>
 
-                <Col xs={8} md={8} lg={8} xl={8}>
-                <p style={{fontWeight:'bold'}}>Delivery: 5$</p>
-                </Col>
+            <p style={{fontWeight:'bold', display:'inline'}}>TOTAL:</p>
+            
     
-           </Row>
+        </Col>
 
-           <Row style={{paddingLeft:'2%', borderTopStyle:'solid'}}>
+        <Col xs={5} md={5} lg={5} xl={5} style={{borderTopStyle:"solid", borderTopWidth:"4px"}}>
+        <p style={{fontWeight:'bold', display:'inline'}}>{
+            Object.keys(sumOfAllOrders).length !== 0 ? 
+            ` ${Object.values(sumOfAllOrders).reduce((prev,curr)=>prev+curr) + 5}$`
+            : 0}</p>
+        </Col> 
 
-               <Col xs={8} md={8} lg={8} xl={8}>
-                <span>
-                    <p style={{fontWeight:'bold', display:'inline'}}>TOTAL:</p>
-                    <p style={{fontWeight:'bold', display:'inline'}}>{
-                    Object.keys(sumOfAllOrders).length !== 0 ? 
-                    ` ${Object.values(sumOfAllOrders).reduce((prev,curr)=>prev+curr) + 5}$`
-                    : 0}</p>
-                </span>
-               </Col>
-               
-           </Row>
-
-           <Row className="justify-content-center" >
-            <Col xs={6} md={3} lg={3} xl={3}>
-                <Button style={{marginBottom:'10px', minWidth:"180px"}} 
-                onClick={()=>navigate('/order')}>Buy</Button>
+        <Row style={{marginTop:'20px', marginBottom:'20px'}}>
+            <Col xs={1} md={1} lg={1} xl={1}>
+                <p style={{textAlign:'left'}}>Notes:</p>
             </Col>
-               
-               
-           </Row>
+
+            <Col xs={11} md={11} lg={11} xl={11} style={{color:'black'}}>
+                <Form.Control as='textarea' 
+                placeholder='Any additional notes'
+                onChange={orderNotes}
+                />
+            </Col>
+            
+        </Row>
+
+        <Row className="justify-content-center">
+        <Col 
+        xs={12} 
+        md={{span:4, offset:3}} 
+        lg={{span:4, offset:3}} 
+        xl={{span:4, offset:3}} 
+        style={{marginBottom:"20px"}}>
+        
+            <Button style={{marginBottom:'10px', minWidth:"180px", margin:"0 auto"}} 
+            onClick={()=>navigate('/order')}>ORDER</Button>
+          
+            </Col>
+        
+        </Row>      
            
         </Row>
     </Container>
