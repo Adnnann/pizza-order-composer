@@ -13,16 +13,16 @@ const emailValidator = [
 const nameValidator = [
     validate({
         validator: 'isAlphanumeric',
-        message: 'Only letters and numbers are allowed in nickname'
+        message: 'Only letters and numbers are allowed in name'
     })
 ]
 
 const UserSchema = new mongoose.Schema({
-    firstName:{
+    name:{
         type:String,
-        required:'First name is required',
+        required:'Name is required',
         trim: true,
-        maxlength: [15, "First name must be less than 15 characters"],
+        maxlength: [10, "First name must be less than 10 characters"],
         validate: nameValidator
         
     },

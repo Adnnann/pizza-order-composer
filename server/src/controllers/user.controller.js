@@ -4,7 +4,6 @@ import errorHandler from './helpers/dbErrorHandlers'
 
 
   const create = (req, res, next) => {
-
     const user = new User(req.body)
     user.save((err, result) => {
         if(err) {

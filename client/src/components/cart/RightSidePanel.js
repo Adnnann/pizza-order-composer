@@ -1,5 +1,5 @@
 import Image from 'react-bootstrap/Image'
-import Cart from '../assets/images/cart.svg'
+import Cart from '../../assets/images/cart.svg'
 import Col from 'react-bootstrap/Col'
 const RightSidePanel = () =>{
     return(

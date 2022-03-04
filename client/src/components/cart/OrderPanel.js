@@ -9,12 +9,9 @@ import {getOrder,
         decreaseQuantity,
         setTotalPriceOfEachOrder,
         getSumOfAllOrders
-} from '../features/pizzaSlice'
+} from '../../features/pizzaSlice'
 import ButtonGroup from 'react-bootstrap/ButtonGroup'
-import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-
-
 const OrderPanel = () =>{
    
     const navigate = useNavigate()
@@ -81,15 +78,12 @@ const OrderPanel = () =>{
                 }) 
            } 
            <Row style={{marginTop:'60%', paddingLeft:'2%', padding:'0'}}>
-
                 <Col xs={8} md={8} lg={8} xl={8}>
-                <p style={{fontWeight:'bold'}}>Delivery: 5$</p>
+                    <p style={{fontWeight:'bold'}}>Delivery: 5$</p>
                 </Col>
-    
            </Row>
 
            <Row style={{paddingLeft:'2%', borderTopStyle:'solid'}}>
-
                <Col xs={8} md={8} lg={8} xl={8}>
                 <span>
                     <p style={{fontWeight:'bold', display:'inline'}}>TOTAL:</p>
@@ -99,16 +93,15 @@ const OrderPanel = () =>{
                     : 0}</p>
                 </span>
                </Col>
-               
            </Row>
 
-           <Row >
-            <Col xs={6} md={3} lg={3} xl={3} style={{marginLeft:'auto'}}>
-                <Button style={{marginBottom:'10px', minWidth:"120px"}} 
-                onClick={()=>navigate('/order')}>Buy</Button>
-            </Col>
-               
-               
+           <Row>
+                <Row className='justify-content-end'>
+                    <Col xs={5} md={4} lg={4} xl={4}>
+                        <Button style={{marginBottom:'10px', minWidth:"120px"}} 
+                        onClick={()=>navigate('/order')}>Buy</Button>
+                    </Col>
+                </Row>   
            </Row>
            
         </Col>

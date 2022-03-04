@@ -5,12 +5,26 @@ import ButtonGroup from 'react-bootstrap/ButtonGroup'
 import Dropdown from 'react-bootstrap/Dropdown'
 import Avatar from '../../assets/images/avatar.svg'
 import Cart from '../../assets/images/cart.svg'
+import CartFull from '../../assets/images/cart-fill.svg'
 import Pizza from '../../assets/images/pizza.png'
-import {useSelector} from "react-redux"
-import { getUserSigninStatus } from '../../features/pizzaSlice'
+import {useDispatch, useSelector} from "react-redux"
+import {getOrder, 
+        getSigninModal, 
+        getUserSigninStatus,
+        setSigninModal 
+} from '../../features/pizzaSlice'
 const Header = () => {
 
-    const userSigninStatus = useSelector(getUserSigninStatus)
+    const userSignedin = useSelector(getUserSigninStatus)
+    const dispatch = useDispatch()
+    const signinModal = useSelector(getSigninModal)
+    const order = useSelector(getOrder)
+
+
+    const test = () => {
+        dispatch(setSigninModal(true))
+        console.log(signinModal)
+    }
 
     return(
         <>
@@ -26,12 +40,12 @@ const Header = () => {
             </Nav.Item>
 
             <Nav.Item style={{marginLeft:'auto', marginBottom:'2px'}}>
-                <Image src={Cart} width={'50px'} />
+               {<Image src={Object.keys(order).length !== 0 ? CartFull : Cart } width={'50px'} /> } 
             </Nav.Item>
 
             
                 
-            {userSigninStatus ?
+            {userSignedin ?
             <Nav.Item style={{marginLeft:"1%", marginRight:"2%"}}>
                 <Dropdown>
 
@@ -49,7 +63,7 @@ const Header = () => {
             </Nav.Item>
             
             : <Nav.Item style={{marginLeft:"1%", marginRight:"2%", marginTop:'7px'}}>
-                    <Button>Sign in</Button>
+                    <Button onClick={()=>test()}>Sign in</Button>
                 </Nav.Item>
             }
 

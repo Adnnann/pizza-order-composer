@@ -1,21 +1,20 @@
 import Button from 'react-bootstrap/esm/Button';
 import Form from 'react-bootstrap/Form'
-import Ingredients from '../features/ingredients.json'
+import Ingredients from '../../features/ingredients.json'
 import Modal from 'react-bootstrap/Modal'
 import Row from 'react-bootstrap/esm/Row';
 import Col from 'react-bootstrap/esm/Col';
 import Image from 'react-bootstrap/Image'
-import glutenFree from '../assets/images/gluten-free.png'
+import glutenFree from '../../assets/images/gluten-free.png'
 import { useDispatch, useSelector } from 'react-redux';
 import {getModal, 
-        getOrder, 
         getQuantity, 
         getSelectedDough, 
         setModal, 
         setOrder,
         setQuantity,
         setTotalPriceOfEachOrder
-} from '../features/pizzaSlice';
+} from '../../features/pizzaSlice';
 import { useState } from 'react';
 
 const IngredientsSelector = () => {
