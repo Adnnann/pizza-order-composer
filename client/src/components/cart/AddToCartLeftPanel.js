@@ -4,11 +4,10 @@ import Col from 'react-bootstrap/Col'
 import Button from 'react-bootstrap/esm/Button'
 import { useDispatch, useSelector } from 'react-redux'
 import { getUserSigninStatus, setModal, setSelectedDough } from '../../features/pizzaSlice'
-import { useNavigate } from 'react-router-dom'
-const LeftPanelHome = () => {
+
+const AddToCartLeftPanel = () => {
 
 const dispatch = useDispatch()
-const navigate = useNavigate()
 //if user gets token from server during login login status will be set
 //to true and will enable displaying of components that only signedin user
 //can see
@@ -17,7 +16,6 @@ const userSigninStatus = useSelector(getUserSigninStatus)
 const selectedDough = (name) => {
     dispatch(setSelectedDough(Doughs.data.filter(item=>item.name === name)))
     dispatch(setModal(true))
-    navigate('/orders')
 }
 
 return(
@@ -50,7 +48,11 @@ return(
                     <Col xs={1} md={1} lg={1} xl={1} style={{marginRight:"5px"}} >
                         <p style={{fontSize:'16px'}}>{`${item.price}$`}</p>
                     </Col> 
-                   
+                    {userSigninStatus ?
+                    <Col xs={2} md={2} lg={2} xl={2}  >
+                        <Button style={{marginLeft:'auto', fontSize:'12px'}} onClick={()=>selectedDough(item.name)}>+ADD</Button>
+                    </Col> : null
+                    }
                 </Row> 
                 )
             })
@@ -59,5 +61,6 @@ return(
 ) 
 }
 
-export default LeftPanelHome
+export default AddToCartLeftPanel
+
 

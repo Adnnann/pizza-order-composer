@@ -8,10 +8,12 @@ import {getOrder,
         increaseQuantity,
         decreaseQuantity,
         setTotalPriceOfEachOrder,
-        getSumOfAllOrders
+        getSumOfAllOrders, 
+        getUserSigninStatus
 } from '../../features/pizzaSlice'
 import ButtonGroup from 'react-bootstrap/ButtonGroup'
 import { useNavigate } from 'react-router-dom'
+
 const OrderPanel = () =>{
    
     const navigate = useNavigate()
@@ -19,6 +21,8 @@ const OrderPanel = () =>{
     const dispatch = useDispatch()
     const order = useSelector(getOrder)
     const sumOfAllOrders = useSelector(getSumOfAllOrders)
+    const userSigninStatus = useSelector(getUserSigninStatus)
+
 
     
     //increase quantity and get update sum
@@ -51,10 +55,11 @@ const OrderPanel = () =>{
         </Row>
         
        {order.map((item, index)=>{
+           
                 return(
                     <Row style={{borderBottomStyle:'solid', marginBottom:'10px'}} key={index}>
 
-                        <Col xs={7} md={7} lg={7} xl={7}>
+                        <Col xs={6} md={7} lg={7} xl={7}>
                             <h4>{item.donut.map(item=>item.name)}</h4>
                             <p style={{fontSize:"12px"}}>{`${item.ingredients.map(item=>item)}`}</p>
                         </Col> 
@@ -66,7 +71,7 @@ const OrderPanel = () =>{
                         <Col xs={3} md={3} lg={3} xl={3}  >
                             <ButtonGroup  >
                                 <Button style={{fontSize:"10px", padding:'7px'}} 
-                                 onClick={()=>decreaseQ(index)}>-</Button> 
+                                 onClick={()=>decreaseQ(index, item.price)}>-</Button> 
                                 <InputGroup.Text >{quantity[index]}</InputGroup.Text>
                                 <Button style={{fontSize:"10px", padding:'7px'}} 
                                 onClick={()=>increaseQ(index)}>+</Button>
@@ -74,9 +79,9 @@ const OrderPanel = () =>{
                         </Col>  
                         
                     </Row>  
-                    ) 
-                }) 
-           } 
+                   ) 
+                       }) 
+                        } 
            <Row style={{marginTop:'60%', paddingLeft:'2%', padding:'0'}}>
                 <Col xs={8} md={8} lg={8} xl={8}>
                     <p style={{fontWeight:'bold'}}>Delivery: 5$</p>
@@ -96,12 +101,16 @@ const OrderPanel = () =>{
            </Row>
 
            <Row>
+           {/* If user not logged AND there are no orders in cart Buy button will not
+           be displayed */}
+           {userSigninStatus && Object.values(order).length !== 0 ?
                 <Row className='justify-content-end'>
                     <Col xs={5} md={4} lg={4} xl={4}>
                         <Button style={{marginBottom:'10px', minWidth:"120px"}} 
                         onClick={()=>navigate('/order')}>Buy</Button>
                     </Col>
-                </Row>   
+                </Row>  
+           :null } 
            </Row>
            
         </Col>

@@ -6,12 +6,50 @@ import Modal from 'react-bootstrap/Modal'
 import Image from "react-bootstrap/esm/Image";
 import Pizza from '../../assets/images/pizza.png'
 import { useDispatch, useSelector } from "react-redux";
-import { getSigninModal, setSigninModal, setSignupModal } from "../../features/pizzaSlice";
+import {getSigninModal, 
+        getUserData,
+        getUserSigninData, 
+        loginUser, 
+        setSigninModal, 
+        setSignupModal, 
+        setUserSiginStatus
+} from "../../features/pizzaSlice";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Signin = () => {
 
     const signinModalStatus = useSelector(getSigninModal)
+    const signinUserData = useSelector(getUserSigninData)
     const dispatch = useDispatch()
+    const userData = useSelector(getUserData)
+    const navigate = useNavigate()
+
+    useEffect(()=>{
+      if(signinUserData.hasOwnProperty('token')){
+        dispatch(setSigninModal(false))
+        dispatch(setUserSiginStatus(true))
+        navigate('/addToCart')
+
+      }
+    },[signinUserData])
+
+    const [userLoginData, setUserLoginData] = useState({
+      name:'',
+      password:'',
+    })
+
+    const handleChange = name => event => {
+      setUserLoginData({...userLoginData, [name]: event.target.value})
+    }
+
+    const signinUser = () => {
+      const user = {
+        name: userLoginData.name,
+        password: userLoginData.password
+      }
+     dispatch(loginUser(user))
+    }
 
     const redirectToSignup = () => {
         dispatch(setSigninModal(false))
@@ -40,7 +78,7 @@ const Signin = () => {
                     <p style={{fontSize:'14px', textAlign:'right'}}>Username:</p>
                 </Col>
 
-                <Col xs={8} md={8} lg={8} xl={8} style={{marginBottom:'10px'}}>
+                <Col xs={8} md={8} lg={8} xl={8} style={{marginBottom:'10px'}} onChange={handleChange('name')}>
                    <Form.Control type="text" style={{height:"30px"}}/>
                 </Col>
                 
@@ -49,14 +87,23 @@ const Signin = () => {
                 </Col>
 
                 <Col xs={8} md={8} lg={8} xl={8} style={{marginBottom:'10px'}}>
-                   <Form.Control type="password" style={{height:"30px"}}/>
+                   <Form.Control type="password" style={{height:"30px"}} onChange={handleChange('password')}/>
                 </Col>
                 <hr />
+                
+                {signinUserData.hasOwnProperty('error') && (
+                <Row className='justify-content-center'>
+                   <p style={{display:'inline', textAlign:'center', color:'red', fontSize:'20px'}}>
+                     {signinUserData.error}
+                  </p>
+                </Row>)}
+              
+
             </Row>
           
             <Row className='justify-content-center' style={{marginBottom:'2%'}}>
                 <Col xs={4} md={4} lg={4} xl={4} >
-                   <Button>SIGN IN</Button>
+                   <Button onClick={signinUser}>SIGN IN</Button>
                 </Col>
             </Row>
 

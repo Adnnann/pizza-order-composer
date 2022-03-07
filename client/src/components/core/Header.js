@@ -8,22 +8,30 @@ import Cart from '../../assets/images/cart.svg'
 import CartFull from '../../assets/images/cart-fill.svg'
 import Pizza from '../../assets/images/pizza.png'
 import {useDispatch, useSelector} from "react-redux"
-import {getOrder, 
+import {getQuantity, 
         getSigninModal, 
         getUserSigninStatus,
-        setSigninModal 
+        resetStore,
+        setSigninModal,
+        signoutUser
 } from '../../features/pizzaSlice'
+import { useNavigate } from 'react-router-dom'
 const Header = () => {
 
-    const userSignedin = useSelector(getUserSigninStatus)
     const dispatch = useDispatch()
     const signinModal = useSelector(getSigninModal)
-    const order = useSelector(getOrder)
+    const quantity = useSelector(getQuantity)
+    const userSigninStatus = useSelector(getUserSigninStatus)
+    const navigate = useNavigate()
 
-
-    const test = () => {
+    const signinUser = () => {
         dispatch(setSigninModal(true))
-        console.log(signinModal)
+    }
+
+    const signout = () => {
+        dispatch(resetStore())
+        dispatch(signoutUser())
+        navigate('/')
     }
 
     return(
@@ -39,13 +47,13 @@ const Header = () => {
                 <h1>Pizza Composer App</h1>
             </Nav.Item>
 
-            <Nav.Item style={{marginLeft:'auto', marginBottom:'2px'}}>
-               {<Image src={Object.keys(order).length !== 0 ? CartFull : Cart } width={'50px'} /> } 
+            <Nav.Item style={{marginLeft:'auto', marginBottom:'2px'}} onClick={()=>navigate('/addToCart')}>
+               {<Image src={Object.keys(quantity).length !== 0 && Object.values(quantity).reduce((prev, curr)=>prev+curr) > 0 ? CartFull : Cart } width={'50px'} /> } 
             </Nav.Item>
 
             
                 
-            {userSignedin ?
+            {userSigninStatus ?
             <Nav.Item style={{marginLeft:"1%", marginRight:"2%"}}>
                 <Dropdown>
 
@@ -54,8 +62,8 @@ const Header = () => {
                     </Dropdown.Toggle>
 
                     <Dropdown.Menu>
-                        <Dropdown.Item>Orders history</Dropdown.Item>
-                        <Dropdown.Item>Logout</Dropdown.Item>
+                        <Dropdown.Item onClick={()=>navigate('/orderHistory')}>Orders history</Dropdown.Item>
+                        <Dropdown.Item onClick={signout}>Logout</Dropdown.Item>
                     </Dropdown.Menu>
 
                 </Dropdown>
@@ -63,7 +71,7 @@ const Header = () => {
             </Nav.Item>
             
             : <Nav.Item style={{marginLeft:"1%", marginRight:"2%", marginTop:'7px'}}>
-                    <Button onClick={()=>test()}>Sign in</Button>
+                    <Button onClick={()=>signinUser()}>Sign in</Button>
                 </Nav.Item>
             }
 

@@ -2,7 +2,6 @@ import User from '../models/user.model'
 import _ from 'lodash'
 import errorHandler from './helpers/dbErrorHandlers'
 
-
   const create = (req, res, next) => {
     const user = new User(req.body)
     user.save((err, result) => {
@@ -30,16 +29,42 @@ const read = (req, res) => {
 }
 
 const update = (req, res, next) => {
+
     let user = req.profile
     user = _.extend(user, req.body);
-
     user.updated = Date.now()
+
+    if(req.body.addressData.address !== ''){
+        user.address.push({'address':req.body.addressData.address, 'floor':req.body.addressData.floor})
+    }
+       
+
     user.save(err=>{
         if(err){
             return res.send({error: errorHandler.getErrorMessage(err)})
         }
         res.send({message: 'Data updated'})
     })
+
+ 
+}
+
+const updateAddress = (req, res, next) => {
+    let user = req.profile
+    user = _.extend(user, req.body);
+    user.updated = Date.now()
+
+    user.address[req.body.index] = null
+    user.address = user.address.filter(Boolean)
+
+    user.save(err=>{
+        if(err){
+            return res.send({error: errorHandler.getErrorMessage(err)})
+        }
+        res.send({message: 'Data updated'})
+    })
+
+ 
 }
 
 const remove = (req, res, next) => {
@@ -68,5 +93,6 @@ export default {
     read, 
     update,
     remove,
-    userByID
+    userByID,
+    updateAddress
 }

@@ -4,11 +4,10 @@ import Button from 'react-bootstrap/esm/Button'
 import { useSelector } from 'react-redux'
 import {getSumOfAllOrders} from '../../features/pizzaSlice'
 import Form from 'react-bootstrap/Form'
-import { useNavigate } from 'react-router-dom'
-const OrderPrice = ({orderNotes}) => {
+
+const SendOrder = ({orderNotes, order, addressSelected}) => {
 
     const sumOfAllOrders = useSelector(getSumOfAllOrders)
-    const navigate = useNavigate()
 
     return(
         <>
@@ -53,7 +52,8 @@ const OrderPrice = ({orderNotes}) => {
             style={{marginBottom:"20px"}}>
     
                 <Button style={{marginBottom:'10px', minWidth:"180px", margin:"0 auto"}} 
-                onClick={()=>navigate('/order')}>ORDER</Button>
+                onClick={order} 
+                >ORDER</Button>
             </Col>
     
         </Row>   
@@ -61,4 +61,4 @@ const OrderPrice = ({orderNotes}) => {
     )
 }
 
-export default OrderPrice
+export default SendOrder

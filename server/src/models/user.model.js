@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
 import crypto from 'crypto'
-import mongooseUniqueValidator from 'mongoose-beautiful-unique-validation'
+import mongooseUniqueValidator from 'mongoose-unique-validator'
 import validate from 'mongoose-validator'
 
 const emailValidator = [
@@ -23,14 +23,17 @@ const UserSchema = new mongoose.Schema({
         required:'Name is required',
         trim: true,
         maxlength: [10, "First name must be less than 10 characters"],
-        validate: nameValidator
-        
+        unique:'Username already used',
+        validate: nameValidator   
     },
     email:{
         type:String,
         unique:'Email already exists.',
         required:'Email is required',
-        validate: emailValidator
+        validate: emailValidator,
+    },
+    address:{
+        type:Array
     },
     created: {
         type: Date,
@@ -43,6 +46,15 @@ const UserSchema = new mongoose.Schema({
     },
     salt:String
 })
+UserSchema.path("email").validate(async function (email) {
+    const user = await this.constructor.findOne({ email });    
+if (user) {    if (this.id === user.id) {    return true;    }    return false;    }    
+return true;   }, "Email already exists!");
+
+UserSchema.path("name").validate(async function (name) {
+    const user = await this.constructor.findOne({ name });    
+if (user) {    if (this.id === user.id) {    return true;    }    return false;    }    
+return true;   }, "Name already exists!");
 
 UserSchema.virtual('password')
 .set(function(password){
@@ -52,6 +64,7 @@ UserSchema.virtual('password')
 })
 
 UserSchema.methods = {
+    
     authenticate: function(plainText){
         return this.encryptPassword(plainText) === this.hashed_password
     },
@@ -76,5 +89,5 @@ UserSchema.path('hashed_password').validate(function(v){
         this.invalidate('password', 'Password must be at least 6 characters')
     }
 }, null)
-UserSchema.plugin(mongooseUniqueValidator)
+
 export default mongoose.model('User', UserSchema)

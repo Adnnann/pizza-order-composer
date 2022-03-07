@@ -4,7 +4,7 @@ import cors from 'cors'
 import helmet from 'helmet';
 import userRoutes from './routes/user.routes'
 import authRoutes from './routes/auth.routes'
-import transactionRoutes from './routes/transaction.routes'
+import orderRoutes from './routes/order.routes'
 import passport from 'passport';
 import cookieParser from 'cookie-parser'
 
@@ -21,7 +21,7 @@ app.use(cookieParser())
 
 app.use('/', authRoutes)
 app.use('/', userRoutes)
-app.use('/', transactionRoutes)
+app.use('/', orderRoutes)
 
 app.use((err, req, res, next) => {
     if(err.name === 'UnauthorizedError'){

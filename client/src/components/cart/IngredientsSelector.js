@@ -17,52 +17,34 @@ import {getModal,
 } from '../../features/pizzaSlice';
 import { useState } from 'react';
 
+
 const IngredientsSelector = () => {
   const showModal = useSelector(getModal)
   const dispatch = useDispatch()
   const selectedDough = useSelector(getSelectedDough)
   const quantity = useSelector(getQuantity)
-
-  const priceArr = []
-
-  const [values,setValues] = useState({
-    mozzarellaCheese: '',
-    parmesanCheese:'',
-    chedarCheese:'',
-    livadaCheese:'',
-    slickedBlackolives:'',
-    slicedGreenOlivers:'',
-    hotSauce:'',
-    romaineLettuce:'',
-    choppedArtichokeHearts:'',
-    choppedTomato:'',
-    slicedGreenOnion:'',
-    mushrooms:'',
-    sprinkleOfDryOregano:''
-
-  })
-
-  let ingredients = ''
-
-  const handleChange = (ingredient, price) => {
-    ingredients += `${ingredient}, `
-    priceArr.push(price)
-  }
+  let [ingredients, setIngredients] = useState([])
+  let [prices, setPrice] = useState([])
+  const [checked,setChecked] = useState([])
 
   //main function for placing orders. Ingridients are stored in array
   const addToCart = () => {
 
+    //set var to store total price
     let price = ''
     
-    priceArr.length > 0 ? 
-    price = priceArr.reduce((prev, curr)=>prev+curr) + selectedDough[selectedDough.length - 1].price
+    prices.length > 0 ? 
+    price = prices.filter(Boolean).reduce((prev, curr)=>prev+curr) + selectedDough[selectedDough.length - 1].price
     : price = selectedDough[selectedDough.length - 1].price
+
     //all orders data
     dispatch(setOrder({
       donut: selectedDough,
       price: price,
-      ingredients: ingredients.substring(0,ingredients.length - 2).split(','),
+      ingredients: ingredients.filter(Boolean)
     }))
+    setIngredients([])
+    setPrice([])
     //set modal windows for selection of ingridentis to true
     dispatch(setModal(false))
     //set initial quantity to 1. On OrderPanel components quantity is increased or decreased
@@ -70,15 +52,34 @@ const IngredientsSelector = () => {
     //set initial sum to price * quantity. Also important if user does not select any ingridients
     //action will just add to total value of donut
     dispatch(setTotalPriceOfEachOrder(quantity.length))
+    setChecked([])
+    
 
   }
-    
+  //in case user change mind and doesn't wont to buy some of extra ingredients
+  // or none of them, following funct will enable him to exclude from order
+  const checkedValues = (event, price, index) => {
+    //controls state of radio button by setting to true or false
+    //index is used to target one of the 13 buttons
+    if(checked[index]){
+      checked[index] = false
+      //in case user changes mind and excludes ingredients set price and ingredient to null 
+      prices[index] = null
+      ingredients[index] = null
+    }else{
+      //store ingredients and prices in state
+      checked[index] = true
+      prices[index] = price
+      ingredients[index] = event.target.value
+    }   
+    setChecked([...checked])
+  }
+
   return(
             <>
               <Modal
                 size="xs"
                 show={showModal}
-              
                  >
                 
                 <Modal.Header>
@@ -112,8 +113,9 @@ const IngredientsSelector = () => {
                                 name={item.name}
                                 value={item.name}
                                 label={item.name}
-                                onChange={()=>handleChange(item.name, item.price)}
-                                
+                                onClick={(event)=>checkedValues(event, item.price, index)}
+                                checked={checked[index] ? checked[index] : false}
+                                readOnly
                                 />
                           
                             </Col>
@@ -129,7 +131,7 @@ const IngredientsSelector = () => {
                 </Row>
                 
                 <Row style={{borderTopStyle:'solid', width:'95%', marginLeft:'2.5%'}}>
-                <Col xs={4} md={4} lg={4} xl={4} 
+                <Col xs={8} md={4} lg={4} xl={4} 
                 style={{marginLeft:'auto', marginTop:'2px', marginBottom:'2px'}}>
                 <Button onClick={addToCart}>+ ADD TO CART</Button>
                 </Col>

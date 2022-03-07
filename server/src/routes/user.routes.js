@@ -19,10 +19,14 @@ router.route('/api/users')
 .get(userCtrl.list)
 .post(userCtrl.create)
 
+
 router.route('/api/users/:userId')
 .get(userCtrl.read)
 .put(userCtrl.update)
 .delete(userCtrl.remove)
+
+router.route('/api/users/removeAddress/:userId')
+.put(userCtrl.updateAddress)
 
 router.param('userId', userCtrl.userByID)
 
