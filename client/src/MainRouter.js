@@ -7,14 +7,16 @@ import Signup from './components/user/Signup';
 import AddToCart from './components/cart/AddToCart';
 import OrderHistory from './components/order/OrderHistory';
 import OrderWindowModal from './components/order/OrderModalWindow';
+import IngredientsSelector from './components/cart/IngredientsSelector';
 
 const MainRouter = () => {
 
     return(
-        <Router>
+    <Router>
         <Header />
         <Signin />
         <Signup />
+        <IngredientsSelector />
         <OrderWindowModal />
             <Routes>
                 <Route path='/' element={<Home />}></Route>
@@ -22,7 +24,7 @@ const MainRouter = () => {
                 <Route path='/order' element={<Order />}></Route>
                 <Route path='/orderHistory' element={<OrderHistory />}></Route>
             </Routes>
-        </Router>
+    </Router>
     )
 }
 

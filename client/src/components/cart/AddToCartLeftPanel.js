@@ -48,11 +48,11 @@ return(
                     <Col xs={1} md={1} lg={1} xl={1} style={{marginRight:"5px"}} >
                         <p style={{fontSize:'16px'}}>{`${item.price}$`}</p>
                     </Col> 
-                    {userSigninStatus ?
+              
                     <Col xs={2} md={2} lg={2} xl={2}  >
                         <Button style={{marginLeft:'auto', fontSize:'12px'}} onClick={()=>selectedDough(item.name)}>+ADD</Button>
-                    </Col> : null
-                    }
+                    </Col> 
+            
                 </Row> 
                 )
             })

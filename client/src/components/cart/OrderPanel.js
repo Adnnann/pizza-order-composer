@@ -9,7 +9,8 @@ import {getOrder,
         decreaseQuantity,
         setTotalPriceOfEachOrder,
         getSumOfAllOrders, 
-        getUserSigninStatus
+        getUserSigninStatus,
+        setSigninModal
 } from '../../features/pizzaSlice'
 import ButtonGroup from 'react-bootstrap/ButtonGroup'
 import { useNavigate } from 'react-router-dom'
@@ -23,8 +24,6 @@ const OrderPanel = () =>{
     const sumOfAllOrders = useSelector(getSumOfAllOrders)
     const userSigninStatus = useSelector(getUserSigninStatus)
 
-
-    
     //increase quantity and get update sum
     const increaseQ = (index) => {
         dispatch(increaseQuantity(index))
@@ -35,6 +34,16 @@ const OrderPanel = () =>{
     const decreaseQ = (index) => {
         dispatch(decreaseQuantity(index))
         dispatch(setTotalPriceOfEachOrder(index))
+    }
+
+    const buy = () => {
+        //if user is not signed in display modal window with signin form
+        if(userSigninStatus){
+            navigate('/order')
+        }else{
+        //user signed - proceed to order
+            dispatch(setSigninModal(true))
+        }
     }
 
     return(
@@ -101,16 +110,16 @@ const OrderPanel = () =>{
            </Row>
 
            <Row>
-           {/* If user not logged AND there are no orders in cart Buy button will not
+           {/* If there are no orders in cart Buy button will not
            be displayed */}
-           {userSigninStatus && Object.values(order).length !== 0 ?
+           {Object.values(order).length !== 0 ?
                 <Row className='justify-content-end'>
                     <Col xs={5} md={4} lg={4} xl={4}>
                         <Button style={{marginBottom:'10px', minWidth:"120px"}} 
-                        onClick={()=>navigate('/order')}>Buy</Button>
+                        onClick={buy}>Buy</Button>
                     </Col>
                 </Row>  
-           :null } 
+           : null} 
            </Row>
            
         </Col>

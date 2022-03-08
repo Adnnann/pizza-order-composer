@@ -88,6 +88,7 @@ const Order = () => {
 
         if(orderDetails.address === '' || orderDetails.floor === ''){
             setOrderDetails({...orderDetails, error:'You must add address before placing order'})
+            window.scroll(0, 0)
             return
         }
 

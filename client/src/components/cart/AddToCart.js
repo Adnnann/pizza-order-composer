@@ -11,16 +11,13 @@ const AddToCart = () => {
 
     const userSignedIn = useSelector(getUserSigninStatus)
     const userData = useSelector(getUserData)
-    const navigate = useNavigate()
     const dispatch = useDispatch()
 
     useEffect(()=>{
-
-        if(!userSignedIn){
-            navigate('/')
+        //only if user signed in
+        if(userSignedIn){
+            dispatch(getOrders(userData._id))
         }
-        dispatch(getOrders(userData._id))
-
     },[])
 
     return(
@@ -28,7 +25,6 @@ const AddToCart = () => {
             <Row>
                 <AddToCartLeftPanel />
                 <OrderPanel />
-                <IngredientsSelector />
             </Row>
         </Container>
     )

@@ -16,6 +16,7 @@ import {getModal,
         setTotalPriceOfEachOrder
 } from '../../features/pizzaSlice';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 
 const IngredientsSelector = () => {
@@ -26,10 +27,13 @@ const IngredientsSelector = () => {
   let [ingredients, setIngredients] = useState([])
   let [prices, setPrice] = useState([])
   const [checked,setChecked] = useState([])
+  const navigate = useNavigate()
 
   //main function for placing orders. Ingridients are stored in array
   const addToCart = () => {
-
+    
+    navigate('/addToCart')
+    
     //set var to store total price
     let price = ''
     
@@ -54,7 +58,6 @@ const IngredientsSelector = () => {
     dispatch(setTotalPriceOfEachOrder(quantity.length))
     setChecked([])
     
-
   }
   //in case user change mind and doesn't wont to buy some of extra ingredients
   // or none of them, following funct will enable him to exclude from order
